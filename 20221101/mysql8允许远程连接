@@ -1,0 +1,22 @@
+1.登录MySQL
+mysql -u root -p
+输入您的密码
+
+2.选择 mysql 数据库
+use mysql;
+因为 mysql 数据库中存储了用户信息的 user 表。
+
+3.在 mysql 数据库的 user 表中查看当前 root 用户的相关信息
+select host, user, authentication_string, plugin from user; 
+执行完上面的命令后会显示一个表格
+查看表格中 root 用户的 host，默认应该显示的 localhost，只支持本地访问，不允许远程访问。
+
+4.授权 root 用户的所有权限并设置远程访问
+update user set host='%' where user ='root';
+
+5.刷新权限
+所有操作后，应执行
+flush privileges;
+
+6.查看 root 用户的 host
+再次执行步骤 2，你会发现 root 用户的 host 已经变成 %，说明我们的修改已经成功，可以远程访问了。
