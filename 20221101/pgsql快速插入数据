@@ -1,0 +1,18 @@
+--pgsql快速插入数据
+create table tbl_test (id int, info text, c_time timestamp);
+insert into tbl_test select generate_series(1,1000000),md5(random()::text),clock_timestamp();
+select count(id) from tbl_test; --查看个数据条数
+
+--随机字母 
+select chr(int4(random()*26)+65);
+ 
+--随机4位字母
+select repeat( chr(int4(random()*26)+65),4);
+ 
+--随机数字 十位不超过6的两位数
+select (random()*(6^2))::integer;
+ 
+--三位数
+select (random()*(10^3))::integer;
+ 
+insert into t_test SELECT generate_series(1,10000) as key,repeat( chr(int4(random()*26)+65),4), (random()*(6^2))::integer,null,(random()*(10^4))::integer;

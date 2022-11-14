@@ -1,0 +1,22 @@
+1卸载掉系统自带的java
+process=`rpm -qa|grep java`
+for i in $process
+do
+  rpm -e --nodeps $i
+done
+
+2.拷贝文件到指定目录
+cp /home/hy/jdk-8u171-linux-x64.tar.gz /usr/java/
+
+3.解压
+tar –zxvf  jdk-8u171-linux-x64.tar.gz
+
+4.配置环境变量
+vim /etc/profile在配置文件最后加上
+JAVA_HOME=/usr/java/jdk1.8.0_171
+PATH=$JAVA_HOME/bin:$PATH
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME
+export PATH
+export CLASSPATH
+完成后执行source /etc/profile使得配置重启生效
