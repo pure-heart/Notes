@@ -1,0 +1,18 @@
+docker运行服务
+启动minion
+  docker run -itd -p 9000:9000 --name minio-service -v /data/minio:/data -e "MINIO_ROOT_USER=admin" -e "MINIO_ROOT_PASSWORD=jianghang1995" minio/minio:RELEASE.2021-06-17T00-10-46Z server /data
+启动cloudreve
+  docker run -d --name cloudreve -e PUID=1000 -e PGID=1000 -e TZ="Asia/Shanghai" -p 5212:5212 --restart=unless-stopped -v /data/cloudreve/uploads:/cloudreve/uploads -v /data/cloudreve/conf.ini:/cloudreve/conf.ini -v /data/cloudreve/cloudreve.db:/cloudreve/cloudreve.db -v /data/cloudreve/avatar:/cloudreve/avatar xavierniu/cloudreve
+启动jenkins
+  docker run -u root --rm --name jenkins -d -p 8088:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean
+启动docker自带教程服务
+  docker run -d -p 8081:80 --name getting-started --restart=always docker101tutorial
+启动mysql
+  mkdir -p /home/simba/mysql/data /home/simba/mysql/logs /home/simba/mysql/conf
+  touch /home/simba/mysql/conf/my.cnf
+  docker run -p 3306:3306 --name mysql-server --restart=always -v /home/simba/mysql/conf:/etc/mysql/conf.d -v /home/simba/mysql/logs:/var/log/mysql -v /home/simba/mysql/data:/var/lib/mysql -e MYSQL_USER="hy" -e MYSQL_PASSWORD="123456" -e MYSQL_ROOT_PASSWORD=123456 -d mysql --character-set-server=utf8 --collation-server=utf8_general_ci
+启动redis
+  mkdir -p /home/simba/redis/data
+  docker run -p 6379:6379 --name redis-server --restart=always -v /home/simba/redis/redis.conf:/etc/redis/redis.conf  -v /home/simba/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
+启动portainer
+  docker run -p 9999:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v /data/portainer/data:/data -d portainer/portainer

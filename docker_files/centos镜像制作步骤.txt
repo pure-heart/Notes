@@ -1,0 +1,24 @@
+centos镜像制作步骤
+# 1.拉取远程centos镜像
+docker pull daocloud.io/centos:7
+# 2.查看镜像
+docker images
+# 3.启动docker镜像
+docker run  -d  --privileged=true daocloud.io/centos:7 /usr/sbin/init
+docker run -itd --name myCentos -p 8081:22 -p 8082:80 -p 8083:8888 -p 8084:3306 centos:7 /bin/bash
+# 4.查看容器
+docker ps
+# 5.进入容器安装服务
+docker exec  -it 215f229105b2 /bin/bash
+# 6.把安装好服务的容器,提交为镜像
+docker commit 215f229105b2 centos7:v1
+# 7.启动提交的镜像，查看是否成功
+docker run -d centos7:v1
+
+# save命令将镜像保存为tar文件
+docker save -o images.tar postgres:9.6
+# load命令将tar文件加载到本地镜像中
+docker load -i  images.tar
+
+# 宿主机复制文件到docker容器（centos）
+ docker cp 宿主机文件路径  镜像名称:镜像中文件存放路径
